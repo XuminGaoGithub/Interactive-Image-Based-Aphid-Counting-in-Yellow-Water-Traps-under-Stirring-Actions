@@ -1,0 +1,67 @@
+(base) xumin@xumin-lenovo-legion-y7000p-1060:/home/newdrive/Phd/Modification_yolov5/dataset/test_counting_model/CNBR$ python multiple_linear_analysis.py 
+C_avg: [0.77571831 0.75933033 0.76137611 0.77618475 0.76772149 0.74811876
+ 0.77535238 0.78717103 0.78575156]
+N_avg: [ 9.42857143  9.28571429 12.14285714  9.85714286  9.71428571 12.28571429
+ 13.         11.          8.42857143]
+B_avg: [15.777804   15.39956339 14.60387252 14.35797868 15.01695548 15.35049773
+ 14.75844065 14.66751578 14.39954642]
+R_avg: [0.4767422  0.59487026 0.34868553 0.44880952 0.32519008 0.44904762
+ 0.4835089  0.39537037 0.44869948]
+Normalized C' (average C values):
+[0.70673366 0.28709146 0.33947704 0.71867744 0.50196138 0.
+ 0.69736318 1.         0.96365211]
+
+Normalized N' (average N values):
+[0.21875 0.1875  0.8125  0.3125  0.28125 0.84375 1.      0.5625  0.     ]
+
+Normalized B' (average B values):
+[1.         0.73360061 0.17318598 0.         0.46412526 0.69904307
+ 0.28205017 0.21801069 0.02927666]
+
+Normalized R' (average R values):
+[0.56196983 1.         0.08712339 0.45839278 0.         0.45927566
+ 0.5870614  0.26023527 0.45798473]
+  Variable Pearson Correlation Coefficient p-value
+0  C_prime                         -0.1152  0.7679
+1  N_prime                         -0.2056  0.5956
+2  B_prime                          0.3887  0.3012
+Pearson correlation between C' and R': -0.1152
+Pearson correlation between N' and R': -0.2056
+Pearson correlation between B' and R': 0.3887
+results: <statsmodels.regression.linear_model.RegressionResultsWrapper object at 0x7f4bb750e790>
+Intercept (W_0): 0.37558025165646036
+Coefficient for C' (W_C): -0.0022950704034157584
+Coefficient for N' (W_N): -0.15400622518706056
+Coefficient for B' (W_B): 0.3204805592334599
+Residuals (e): [-0.09878011  0.41885008 -0.21805042  0.13258889 -0.47985709 -0.01039155
+  0.27669627 -0.0962896   0.07523353]
+/home/xumin/anaconda3/lib/python3.8/site-packages/scipy/stats/_stats_py.py:1736: UserWarning: kurtosistest only valid for n>=20 ... continuing anyway, n=9
+  warnings.warn("kurtosistest only valid for n>=20 ... continuing "
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.183
+Model:                            OLS   Adj. R-squared:                 -0.307
+Method:                 Least Squares   F-statistic:                    0.3744
+Date:                Thu, 05 Sep 2024   Prob (F-statistic):              0.776
+Time:                        11:00:33   Log-Likelihood:               -0.37060
+No. Observations:                   9   AIC:                             8.741
+Df Residuals:                       5   BIC:                             9.530
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.3756      0.506      0.742      0.491      -0.925       1.676
+x1            -0.0023      0.466     -0.005      0.996      -1.201       1.197
+x2            -0.1540      0.386     -0.399      0.707      -1.147       0.839
+x3             0.3205      0.411      0.779      0.471      -0.737       1.378
+==============================================================================
+Omnibus:                        0.240   Durbin-Watson:                   2.871
+Prob(Omnibus):                  0.887   Jarque-Bera (JB):                0.125
+Skew:                          -0.175   Prob(JB):                        0.939
+Kurtosis:                       2.541   Cond. No.                         8.98
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+

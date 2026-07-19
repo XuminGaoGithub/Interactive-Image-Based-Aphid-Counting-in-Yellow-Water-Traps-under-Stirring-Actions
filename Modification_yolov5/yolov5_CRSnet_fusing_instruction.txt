@@ -1,0 +1,51 @@
+
+0. yolov5
+
+python detect.py --weights /home/xumin/yolov5/runs/train/yolov5s-low/weights/best.pt --source /home/xumin/yolov5/dataset/test4 --device 0
+
+
+1. our_test_single_image.py #from detect.py
+
+# copy model.py, image.py and utils.py from CSRNet-pytorch-master to yolov5,and rename utils.py as utils_crsnet.py in case to conflict with utils file of the yolov5's package.
+
+# need to copy the '/home/xumin/phd/CSRNet-pytorch-master/Shanghai/part_A_final/test_data/ground_truth' to '/home/xumin/yolov5/dataset/voc2013'
+
+python our_test_single_image.py --weights /home/xumin/yolov5/runs/train/yolov5s-2-DCN2-low/weights/best.pt --source /home/xumin/yolov5/dataset/voc2013/JPEGImages/IMG_225_3.jpg --device 0 --save-txt
+
+#for files
+python our_test_single_image.py --weights /home/xumin/yolov5/runs/train/yolov5s-2-DCN2-low/weights/best.pt --source /home/xumin/yolov5/dataset/test4 --device 0
+
+# add heatmap
+python our_test_single_image_Reflection.py --weights /home/xumin/yolov5/runs/train/yolov5s-2-DCN2-low/weights/best.pt --source /home/xumin/yolov5/dataset/test2/src/2_234.jpg --device 0 --save-txt
+
+2. our_split_test.py #from sahi_split_test.py
+
+# be similar to 1. But needs to modify:
+model_CSR = CSRNet() #rename in case to conflict with definition 'model' from original yolov5
+
+# need to copy the '/home/xumin/phd/CSRNet-pytorch-master/Shanghai/part_A_final/test_data/ground_truth' to '/home/xumin/yolov5/dataset/voc2013'
+
+# modify the dataset dir as relevant dir from '/home/xumin/yolov5/data/aphid_voc.yaml'
+
+train: /home/xumin/yolov5/dataset/2011_train.txt
+  
+val: /home/xumin/yolov5/dataset/2011_val.txt
+
+test: /home/xumin/yolov5/dataset/2011_test.txt
+ 
+
+python our_split_test.py --data data/aphid_voc.yaml --weights /home/xumin/yolov5/runs/train/yolov5s-2-DCN2-low/weights/best.pt --device '0' --batch-size 1
+
+3. different sliced size and overlapped ratio
+python sahi_split_test.py --data data/aphid_voc.yaml --img-size 640 --weights /home/xumin/yolov5/runs/train/yolov5s-2-DCN2-low/weights/best.pt --device '0' --batch-size 1 --sliced_height 256 --sliced_width 256
+
+python sahi_split_test.py --data data/aphid_voc.yaml --img-size 640 --weights /home/xumin/yolov5/runs/train/yolov5s-2-DCN2-low/weights/best.pt --device '0' --batch-size 1 --overlapped_height_ratio 0.4 --overlapped_width_ratio 0.4
+
+4. Draw the change curves of MSE and RMSE with different threshold values
+python our_split_test_Thresholds_Figure.py --data data/aphid_voc.yaml --weights /home/xumin/yolov5/runs/train/yolov5s-2-DCN2-low/weights/best.pt --device '0' --batch-size 1
+
+
+
+
+
+

@@ -1,0 +1,10 @@
+(yolov5) xumin@xumin-lenovo-legion-y7000p-1060:/home/newdrive/Phd/Modification_yolov5$ python test.py --img 640 --data data/aphid_voc_2055.yaml --weights /home/newdrive/Phd/Modification_yolov5/runs/train/voc2055_original_yolov5/weights/best.pt --device '0' --batch-size 1
+
+python sahi_split_test_keep_src_256x256.py --data /home/xumin/yolov5/data/aphid_voc_2055.yaml --weights /home/newdrive/Phd/Modification_yolov5/runs/train/voc_2054_yolov5s_ODConv_CoT3/weights/best.pt --device '0' --batch-size 1 --sliced_width 640 --sliced_height 640 --overlapped_height_ratio 0.2 --overlapped_width_ratio 0.2
+
+
+(yolov5) xumin@xumin-lenovo-legion-y7000p-1060:/home/newdrive/Phd/Modification_yolov5$ python detect_ConfusionMatrix_file.py --weights /home/newdrive/Phd/Modification_yolov5/runs/train/voc2055_original_yolov5/weights/best.pt --device 0 --save-txt --save-conf --xml /home/newdrive/Phd/Modification_yolov5/dataset/test_counting_model/labels/ --source /home/newdrive/Phd/Modification_yolov5/dataset/test_counting_model/src/
+
+
+(yolov5) xumin@xumin-lenovo-legion-y7000p-1060:/home/newdrive/Phd/Modification_yolov5$ python sahi_split_detect_keep_src_ConfusionMatrix_files.py --weights /home/newdrive/Phd/Modification_yolov5/runs/train/voc_2054_yolov5s_ODConv_CoT3/weights/best.pt --device 0 --save-txt --save-conf --sliced_height 640 --sliced_width 640 --overlapped_height_ratio 0.2 --overlapped_width_ratio 0.2 --xml /home/newdrive/Phd/Modification_yolov5/dataset/test_counting_model/labels/ --source /home/newdrive/Phd/Modification_yolov5/dataset/test_counting_model/src/
+
