@@ -68,48 +68,23 @@ https://universityoflincoln-my.sharepoint.com/:f:/g/personal/25766099_students_l
 python sahi_split_detect_keep_src_ConfusionMatrix_files_with_CountingConfidence.py --weights /home/newdrive/Phd/Modification_yolov5/runs/train/voc_2054_yolov5s_ODConv_CoT3/weights/best.pt --device 0 --save-txt --save-conf --sliced_height 640 --sliced_width 640 --overlapped_height_ratio 0.2 --overlapped_width_ratio 0.2 --xml /home/newdrive/Phd/Modification_yolov5/dataset/test_counting_model/labels/ --source /home/newdrive/Phd/Modification_yolov5/dataset/test_counting_model/src/ #get cnbr.txt (which is calculated and recorded the detection confidence of aphid bounding boxes, the predicted number of aphids, the image clarity,and ground truth of counting confidence for each of images)
 
 
-cd CSRNet-pytorch-master/
+**Multiple linear regression analysis**
 
-`python -m visdom.server` # Open visdom to watch the training curves
+cd /home/newdrive/Modification_yolov5/dataset/test_counting_model/CNBR
 
-`python train.py train.json val.json 0 0` # Training
+python sort_cnbr.py #get sort_cnbr.txt and split into sorted_CNBR_training.txt and sorted_CNBR_test.txt
 
-**Notice**
+python multiple_linear_analysis_training.py
+python multiple_linear_analysis_test.py
 
-Please note that we have two datasets (aphid_dataset_1,aphid_dataset_2), before training, you need to configure some training files，for example:
+python plot4.py # get the data from above and copy it into code, plot "Variations of the average values of C, N, G, and R over time T: (a) C; (b) N; (c) G; (d) R".
 
-if you train aphid_dataset_1,
+cd R_probability
 
-(1) mofify 'CSRNet-pytorch-master/Shanghai/part_A_final_aphid_dataset_1' to 'CSRNet-pytorch-master/Shanghai/part_A_final'
-
-(2) copy three json file from 'CSRNet-pytorch-master/aphid_dataset_1_json' to 'CSRNet-pytorch-master/'
-
-
-if you train aphid_dataset_2,
-
-(1) mofify 'CSRNet-pytorch-master/Shanghai/part_A_final_aphid_dataset_2' to 'CSRNet-pytorch-master/Shanghai/part_A_final'
-
-(2) copy three json file from 'CSRNet-pytorch-master/aphid_dataset_2_json' to 'CSRNet-pytorch-master/'
-
-
-**Test**
-
-Please refer to '*4. Hybrid_network test*', you can use 'hybird_network_image.py' and 'hybird_network_test.py' to do test by setting the condition for the detection network to 'False' in the codes, in this case, only density map estimation network works. Also, please you need to modify the loaded model name in the codes which you want use as we have two density map estimation network model (for aphid_dataset_1, aphid_dataset_2 respectively).
-
-
-**4. Hybrid_network test**
-* The hybrid_network integrates the detection network and the density map estimation network. When the distribution density of aphids is low, it utilizes the improved Yolov5 to count aphids. Conversely, when the distribution density of aphids is high, it switches to CSRNet to count aphids.
-
-`python hybird_network_image.py --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --source ./dataset/voc2013/JPEGImages/IMG_40_1.jpg --device 0` # For single image test
-
-`python hybird_network_image.py --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --source ./images --device 0` # For image_file test
-
-`python hybird_network_test.py --data data/aphid_voc.yaml --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --device '0' --batch-size 1` # Test on the test set
-
-`python hybird_network_test_Thresholds_Figure.py --data data/aphid_voc.yaml --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --device '0' --batch-size 1` # vary T from 0 to 200 with an interval of 5 and carry out counting test to get the optimal T
+python cal_probability.py
    
 ## Citation
-Gao, X., Xue, W., Lennox, C., Stevens, M. and Gao, J., 2024. Developing a hybrid convolutional neural network for automatic aphid counting in sugar beet fields. Computers and Electronics in Agriculture, 220, p.108910.
+X. Gao, M. Stevens, G. Cielniak. Interactive Image-Based Aphid Counting in Yellow Water Traps under Stirring Actions. The 27th International Conference on Pattern Recognition VAIB Workshop (ICPR2024), Kolkata, India, 2024.
 
 ## Contact
 If you have any issue, please contact us.
