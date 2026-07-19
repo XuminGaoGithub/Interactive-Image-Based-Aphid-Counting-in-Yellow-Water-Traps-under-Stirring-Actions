@@ -52,35 +52,19 @@ Please refer https://github.com/XuminGaoGithub/Automatic_aphid_counting___2023/t
 `python sahi_split_test_keep_src_256x256.py --data /home/xumin/yolov5/data/aphid_voc_2055.yaml --weights /home/newdrive/Phd/Modification_yolov5/runs/train/voc_2054_yolov5s_ODConv_CoT3/weights/best.pt --device '0' --batch-size 1 --sliced_width 640 --sliced_height 640 --overlapped_height_ratio 0.2 --overlapped_width_ratio 0.2` #Test the improved Yolov5 model
 
 
-**Inference**  
+**2.2 Counting confidence assessment**
 
-`python detect.py --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --source ./images --device 0 --save-txt`
+**Dataset**
+9 sets of sequence images under interactive stirring actions, with each set containing 9 images. Seven of these sets were used to build the aphid counting confidence model, while the remaining 2 sets were used for testing.
 
-`python split_detect.py --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --source ./images --device 0 --save-txt`
-
-`python sahi_split_detect.py --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --source ./images --device 0 --save-txt --conf-thres 0.5 --iou-thres 0.6`
-
-`python sahi_split_detect_keep_src.py --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --source ./images --device 0 --save-txt --sliced_height 256 --sliced_width 256 --overlapped_height_ratio 0.2 --overlapped_width_ratio 0.2 --conf-thres 0.5 --iou-thres 0.6`
-
-**Notice**
-Please note that you need to keep the values of conf-thres and iou-thres consistent whether in the code of from commands, when you conduct comparison experiments. Normally, we set --conf-thres 0.5 --iou-thres 0.6
-
-**Extra instructions**
-
-* We refer to the SAHI slicing idea (https://github.com/obss/sahi), and then modify the code of yolov5 to slice the input image into 256x256 small bolcks for test. Please check **def get_slice_bboxes()**  function in the our relevant python file, and add this part to yolov5 if you use the original yolov5 framework rather than ours. 
+Dataset link: 
+https://universityoflincoln-my.sharepoint.com/:f:/g/personal/25766099_students_lincoln_ac_uk/IgAyMWwn2shvTYCxHb5qtFSoAXwMmIc1wTP4PhsFcFdIrXU?e=dniXgu
 
 
-* All of  relevent code have NMS and Soft_nms, you can switch it through commented relevant part of codes. If you use Soft_nms, please refer to our code and add **def soft_nms()** function on ./utils/general.py
+**Calculate CNGR for each of images in dataset**
 
-* It has two aphid datasets (aphid_dataset_1,aphid_dataset_2), '/dataset/voc2011' is aphid_dataset_1, '/dataset/voc2013' is aphid_dataset_2.
+python sahi_split_detect_keep_src_ConfusionMatrix_files_with_CountingConfidence.py --weights /home/newdrive/Phd/Modification_yolov5/runs/train/voc_2054_yolov5s_ODConv_CoT3/weights/best.pt --device 0 --save-txt --save-conf --sliced_height 640 --sliced_width 640 --overlapped_height_ratio 0.2 --overlapped_width_ratio 0.2 --xml /home/newdrive/Phd/Modification_yolov5/dataset/test_counting_model/labels/ --source /home/newdrive/Phd/Modification_yolov5/dataset/test_counting_model/src/ #get cnbr.txt (which is calculated and recorded the detection confidence of aphid bounding boxes, the predicted number of aphids, the image clarity,and ground truth of counting confidence for each of images)
 
-* we also provide a short tutorial how to run it on Colab https://colab.research.google.com/drive/1vL7kDD87bkYDHRseMB06YQNc5gR676oB#scrollTo=NsCtkhgY8lti , it will be easy to reproduce.
-
-
-
-**3.2 Density map estimation network (CSRNet)**
-
-**Train**
 
 cd CSRNet-pytorch-master/
 
