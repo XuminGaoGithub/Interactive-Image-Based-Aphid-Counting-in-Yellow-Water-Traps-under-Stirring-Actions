@@ -38,35 +38,19 @@ Please refer https://github.com/XuminGaoGithub/Automatic_aphid_counting___2023/t
 **Prepare dataset**    
 Please refer https://github.com/XuminGaoGithub/Automatic_aphid_counting___2023/tree/main/Automatic_aphid_counting to prepare yolo format datasets (#./dataset/voc2054/, ./dataset/voc2055/).
 
-**Train**    
-`python train.py --img 640 --batch 4 --epoch 600 --data data/aphid_voc.yaml --cfg models/yolov5s-2-DCN2.yaml --weights weights/yolov5s.pt --device '0' --patience 0 --save-period 100`
+**Train**
 
-We can use tensorboard or Wandb to visualize the training curves. And all of training result will be saved on ./runs/.
+`python train.py --img 640 --batch 4 --epoch 600 --data data/aphid_voc_2055.yaml --cfg models/yolov5s.yaml --weights weights/yolov5s.pt --device '0' --patience 0 --save-period 100` #Training Yolov5 model
 
-**Test (model)**    
-`python detect.py --source ./images/1_53_0.jpg --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --conf-thres 0.5 #(image)`
+`python train.py --img 640 --batch 4 --epoch 600 --data data/aphid_voc_2054.yaml --cfg models/yolov5s-ODConv-CoT3.yaml --weights weights/yolov5s.pt --device '0' --patience 0 --save-period 100` #Training the improved Yolov5 model
 
-`python detect.py --source ./images  --imgsz 640 --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --conf-thres 0.5 #(image dir)`
 
-`python detect.py --source test.mp4  --imgsz 640 --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --output test_result/3_video #(video)`
+**Test**
 
-**Val (val_dataset)**   
-`python val.py --data data/aphid_voc.yaml --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --device '0' --batch-size 1`
+`python test.py --img 640 --data data/aphid_voc_2055.yaml --weights /home/xumin/Modification_yolov5/runs/train/voc2055_original_yolov5/weights/best.pt --device '0' --batch-size 1` #Test Yolov5 model
 
-`python split_val.py --data data/aphid_voc.yaml --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --device '0' --batch-size 1 # split image to several equal parts`
+`python sahi_split_test_keep_src_256x256.py --data /home/xumin/yolov5/data/aphid_voc_2055.yaml --weights /home/newdrive/Phd/Modification_yolov5/runs/train/voc_2054_yolov5s_ODConv_CoT3/weights/best.pt --device '0' --batch-size 1 --sliced_width 640 --sliced_height 640 --overlapped_height_ratio 0.2 --overlapped_width_ratio 0.2` #Test the improved Yolov5 model
 
-`python sahi_split_val.py --data data/aphid_voc.yaml --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --device '0' --batch-size 1 # resize 640x640, then split image into 256x256 with overlapped ratio 0.2 for val`
-
-`python sahi_split_val_keep_src.py --data data/aphid_voc.yaml --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --device '0' --batch-size 1 --sliced_height 256 --sliced_width 256 --overlapped_height_ratio 0.2 --overlapped_width_ratio 0.2 # keep the original size of images, then split image into 256x256 with overlapped ratio 0.2 for val`
-
-**Test (test_dataset)**   
-`python test.py --data data/aphid_voc.yaml --weights ./runs/train/yolov5s-low/weights/best.pt --device '0' --batch-size 1` # **This is exactly test results on original yolov5**
-
-`python split_test.py --data data/aphid_voc.yaml --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --device '0' --batch-size 1 # split image to seveal equal parts`
-
-`python sahi_split_test.py --data data/aphid_voc.yaml --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --device '0' --batch-size 1 # resize 640x640, then split image into 256x256 with overlapped ratio 0.2 for test`. # **This is exactly test results on our improved yolov5** 
-
-`python sahi_split_test_keep_src.py --data data/aphid_voc.yaml --weights ./runs/train/yolov5s-2-DCN2-low/weights/best.pt --device '0' --batch-size 1 --sliced_height 256 --sliced_width 256 --overlapped_height_ratio 0.2 --overlapped_width_ratio 0.2 # keep the original size of images, then split image into 256x256 with overlapped ratio 0.2 for test`
 
 **Inference**  
 
