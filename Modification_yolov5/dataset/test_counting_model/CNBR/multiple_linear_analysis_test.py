@@ -7,7 +7,7 @@ import statsmodels.api as sm
 import pandas as pd
 
 # 读取 sorted_CNBR.txt 文件
-with open('sorted_CNBR_test3.txt', 'r') as file:
+with open('sorted_CNBR_test1.txt', 'r') as file: #sorted_CNBR_test1.txt and sorted_CNBR_test2.txt
     lines = file.readlines()
 
 # 用于存储 C, N, B, R 的二维数组
