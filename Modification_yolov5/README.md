@@ -4,7 +4,7 @@
 
 
 <p align="center">
-  <img src="https://github.com/XuminGaoGithub/Automatic_aphid_counting___2023/blob/main/Automatic_aphid_counting/demo_data/Fig.%205.%20Overview%20of%20our%20proposed%20automatic%20aphid%20counting%20network%20architecture.jpg" width="500" height="1000"" />
+  <img src="https://github.com/XuminGaoGithub/Interactive-Image-Based-Aphid-Counting-in-Yellow-Water-Traps-under-Stirring-Actions/blob/main/Modification_yolov5/Overview_overall_methodology.jpg" width="1000" height="1000"" />
 </p>
 
 <p align="center">
@@ -14,7 +14,7 @@ Overview of our proposed method
 
 
 ## Overview
-The current vision-based aphid counting methods in water traps suffer from undercounts caused by occlusions and low visibility arising from dense aggregation of insects and other objects. To address this problem, we propose a novel aphid counting method through interactive stirring actions. We use interactive stirring to alter the distribution of aphids in the yellow water trap and capture a sequence of images which are then used for aphid detection and counting through an optimized small object detection network based on Yolov5. We also propose a counting confidence evaluation system to evaluate the confidence of count-ing results. The final counting result is a weighted sum of the counting results from all sequence images based on the counting confidence. Experimental results show that our proposed aphid detection network significantly outperforms the original Yolov5, with improvements of 33.9% in AP@0.5 and 26.9% in AP@[0.5:0.95] on the aphid test set. In addition, the aphid counting test results using our proposed counting confidence evaluation system show significant improvements over the static counting method, closely aligning with manual counting results. The datasets and project code are released at: https://github.com/JunfengGaolab/Counting-Aphids.
+The current vision-based aphid counting methods in water traps suffer from undercounts caused by occlusions and low visibility arising from dense aggregation of insects and other objects. To address this problem, we propose a novel aphid counting method through interactive stirring actions. We use interactive stirring to alter the distribution of aphids in the yellow water trap and capture a sequence of images which are then used for aphid detection and counting through an optimized small object detection network based on Yolov5. We also propose a counting confidence evaluation system to evaluate the confidence of count-ing results. The final counting result is a weighted sum of the counting results from all sequence images based on the counting confidence. Experimental results show that our proposed aphid detection network significantly outperforms the original Yolov5, with improvements of 33.9% in AP@0.5 on the aphid test set. In addition, the aphid counting test results using our proposed counting confidence evaluation system show significant improvements over the static counting method, closely aligning with manual counting results. The datasets and project code are released at: https://github.com/XuminGaoGithub/Interactive-Image-Based-Aphid-Counting-in-Yellow-Water-Traps-under-Stirring-Actions.
 
 
 
@@ -22,114 +22,21 @@ The current vision-based aphid counting methods in water traps suffer from under
 
 This work is based on https://github.com/ultralytics/yolov5.
 
-As space limitation and file size limitation, datasets and some of trained models are uplaoded to OneDrive. Please download datasets and trained models by the links which has already included in the relevent files named README.md.
+As space limitation and file size limitation, datasets are uplaoded to OneDrive. Please download datasets by the links which has already included in the relevent files named README.md.
 
 
 
 ## Installation and Run
 
-**1. Create virtual environment**   
-Clone my repository into your workspace and recompile it:  
-`conda create --name=yolov5 python=3.8 #choose your machine python version`  
-`source activate yolov5`      
+**1. Install envs**   
+Please refer https://github.com/XuminGaoGithub/Automatic_aphid_counting___2023/tree/main/Automatic_aphid_counting to set up Yolov5 envs      
 
-**2. Install yolov5 and test**   
-`Download this workpackge from github`  
+**2. Training and test model**
 
-`Enter into dir 'Aphid counting under stirring actions'`
-
-`pip install -r requirements.txt`
-
-`./data/scripts/download_weights.sh #(download pretrained weights)`  
-
-`python inference.py #(image test)`
-
-`python detect.py --source 0`
-
-**3. Training and test model**
-
- **3.1 Detection network**
+ **2.1 Detection**
 
 **Prepare dataset**    
-Label the aphid and generate the VOC format dataset (#./dataset/voc2011/).
-
-`cd ./dataset/voc2011/`
-
-#`python txt.py #(split the dataset and get the ./voc2011/ImageSets/Main/xxx.txt)` Please don't execute this command if you want to use the pre-split dataset from our
-
-`python voc_label_2011.py #(convert the dataset to yolo format)`
-
-**Modify the configuration from code**    
-**(1)** Go to ./data/, creat aphid_voc.yaml according to VOC.yaml. Modify the some configurations:
-
-train: /home/xumin/yolov5/dataset/2011_train.txt
-
-val: /home/xumin/yolov5/dataset/2011_val.txt
-
-test: /home/xumin/yolov5/dataset/2011_test.txt
-
-\# Classes\
-nc: 1  # number of classes\
-names: ['aphid']  # class names
-
-**(2)** Go to the ./models/, create yolov5s-2-DCN2.yaml according to yolov5s.yaml. Modify configuration and network:
-
-nc: 1  # number of classes
-
-anchors: 3
-
-backbone:
-
-  [[-1, 1, Conv, [64, 6, 2, 2]],  # 0-P1/2\
-   [-1, 1, Conv, [128, 3, 2]],  # 1-P2/4\
-   [-1, 3, C3, [128]],
-   [-1, 1, Conv, [256, 3, 2]],  # 3-P3/8\
-   [-1, 6, C3, [256]],
-   [-1, 1, DCNConv, [512, 3, 2]],  # 5-P4/16 #insert Deformable Convolution\
-   [-1, 9, C3, [512]],
-   [-1, 1, DCNConv, [1024, 3, 2]],  # 7-P5/32 #insert Deformable Convolution\
-   [-1, 3, C3, [1024]],
-   [-1, 1, SPPF, [1024, 5]],  # 9\
-  ]
-
-head:
-
-  [[-1, 1, Conv, [512, 1, 1]],  #20x20\
-   [-1, 1, nn.Upsample, [None, 2, 'nearest']], #40x40\
-   [[-1, 6], 1, Concat, [1]],  # cat backbone P4  40x40\
-   [-1, 3, C3, [512, False]],  # 13     40x40
-
-   [-1, 1, Conv, [256, 1, 1]], #40x40\
-   [-1, 1, nn.Upsample, [None, 2, 'nearest']],\
-   [[-1, 4], 1, Concat, [1]],  # cat backbone P3   80x80\
-   [-1, 3, C3, [256, False]],  # 17 (P3/8-small)  80x80
-
-   [-1, 1, Conv, [256, 1, 1]], #18  80x80\
-   [-1, 1, nn.Upsample, [None, 2, 'nearest']], #19  160x160,  add small object layer\
-   [[-1, 2], 1, Concat, [1]], #20 cat backbone p2  160x160, add small object layer\
-   [-1, 3, C3, [256, False]], #21 160x160, add small object layer 
-
-   [-1, 1, Conv, [256, 3, 2]],  #22   80x80\
-   [[-1, 18], 1, Concat, [1]], #23 80x80\
-   [-1, 3, C3, [256, False]], #24 80x80
-
-   [-1, 1, Conv, [256, 3, 2]], #25  40x40\
-   [[-1, 14], 1, Concat, [1]],  # 26  cat head P4  40x40\
-   [-1, 3, C3, [512, False]],  # 27 (P4/16-medium) 40x40
-
-   [-1, 1, Conv, [512, 3, 2]],  #28  20x20\
-   [[-1, 10], 1, Concat, [1]],  #29 cat head P5  #20x20\
-   [-1, 3, C3, [1024, False]],  # 30 (P5/32-large)  20x20
-
-   [[21, 24, 27, 30], 1, Detect, [nc, anchors]],  # Detect(p2, P3, P4, P5)\
-  ]
-
-**(3)** Modify utils/dataloaders.py
-
-```
-#sa, sb = f'{os.sep}images{os.sep}', f'{os.sep}labels{os.sep}'  
-sa, sb = f'{os.sep}JPEGImages{os.sep}', f'{os.sep}labels{os.sep}'
-```
+Please refer https://github.com/XuminGaoGithub/Automatic_aphid_counting___2023/tree/main/Automatic_aphid_counting to prepare yolo format datasets (#./dataset/voc2054/, ./dataset/voc2055/).
 
 **Train**    
 `python train.py --img 640 --batch 4 --epoch 600 --data data/aphid_voc.yaml --cfg models/yolov5s-2-DCN2.yaml --weights weights/yolov5s.pt --device '0' --patience 0 --save-period 100`
