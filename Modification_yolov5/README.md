@@ -14,7 +14,7 @@ Overview of our proposed method
 
 
 ## Overview
-The current vision-based aphid counting methods in water traps suffer from undercounts caused by occlusions and low visibility arising from dense aggregation of insects and other objects. To address this problem, we propose a novel aphid counting method through interactive stirring actions. We use interactive stirring to alter the distribution of aphids in the yellow water trap and capture a sequence of images which are then used for aphid detection and counting through an optimized small object detection network based on Yolov5. We also propose a counting confidence evaluation system to evaluate the confidence of count-ing results. The final counting result is a weighted sum of the counting results from all sequence images based on the counting confidence. Experimental results show that our proposed aphid detection network significantly outperforms the original Yolov5, with improvements of 33.9% in AP@0.5 on the aphid test set. In addition, the aphid counting test results using our proposed counting confidence evaluation system show significant improvements over the static counting method, closely aligning with manual counting results. The datasets and project code are released at: https://github.com/XuminGaoGithub/Interactive-Image-Based-Aphid-Counting-in-Yellow-Water-Traps-under-Stirring-Actions.
+The current vision-based aphid counting methods in water traps suffer from undercounts caused by occlusions and low visibility arising from dense aggregation of insects and other objects. To address this problem, we propose a novel aphid counting method through interactive stirring actions. We use interactive stirring to alter the distribution of aphids in the yellow water trap and capture a sequence of images which are then used for aphid detection and counting through an optimized small object detection network based on Yolov5. We also propose a counting confidence evaluation system to evaluate the confidence of counting results. The final counting result is a weighted sum of the counting results from all sequence images based on the counting confidence. Experimental results show that our proposed aphid detection network significantly outperforms the original Yolov5, with improvements of 33.9% in AP@0.5 on the aphid test set. In addition, the aphid counting test results using our proposed counting confidence evaluation system show significant improvements over the static counting method, closely aligning with manual counting results. The datasets and project code are released at: https://github.com/XuminGaoGithub/Interactive-Image-Based-Aphid-Counting-in-Yellow-Water-Traps-under-Stirring-Actions.
 
 
 
@@ -75,9 +75,10 @@ cd /home/newdrive/Modification_yolov5/dataset/test_counting_model/CNBR
 python sort_cnbr.py #get sort_cnbr.txt and split into sorted_CNBR_training.txt and sorted_CNBR_test.txt
 
 python multiple_linear_analysis_training.py
+
 python multiple_linear_analysis_test.py
 
-python plot4.py # get the data from above and copy it into code, plot "Variations of the average values of C, N, G, and R over time T: (a) C; (b) N; (c) G; (d) R".
+python plot4.py # get the data from above and copy it into code, plot "Variations of the average values of C, N, G, and R over time T.
 
 
 
