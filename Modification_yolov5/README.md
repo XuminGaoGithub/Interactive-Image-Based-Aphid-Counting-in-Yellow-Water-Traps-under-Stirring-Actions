@@ -55,9 +55,11 @@ Please refer https://github.com/XuminGaoGithub/Automatic_aphid_counting___2023/t
 **2.2 Counting confidence assessment**
 
 **Dataset**
+
 9 sets of sequence images under interactive stirring actions, with each set containing 9 images. Seven of these sets were used to build the aphid counting confidence model, while the remaining 2 sets were used for testing.
 
 Dataset link: 
+
 https://universityoflincoln-my.sharepoint.com/:f:/g/personal/25766099_students_lincoln_ac_uk/IgAyMWwn2shvTYCxHb5qtFSoAXwMmIc1wTP4PhsFcFdIrXU?e=dniXgu
 
 
