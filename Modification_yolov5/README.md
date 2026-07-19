@@ -79,6 +79,12 @@ python multiple_linear_analysis_test.py
 
 python plot4.py # get the data from above and copy it into code, plot "Variations of the average values of C, N, G, and R over time T: (a) C; (b) N; (c) G; (d) R".
 
+
+
+**The final counting result**
+
+The final counting result is computed as a weighted sum of counting results from a complete counting sequence, where the counting result for each image N_i is weighted by a softmax probability derived from its corresponding counting confidence R_i.
+
 cd R_probability
 
 python cal_probability.py
